@@ -4,49 +4,52 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Test;
+import java.util.stream.Stream;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 class LetterFrequencyCalculatorTest {
 
-    @Test
-    void test_shouldCalculateFrequency() {
-        Map<String, Long> actual = new LetterFrequencyCalculator().calculateFrequency("Extraordinary");
-
-        Map<String, Long> expected = new LinkedHashMap<>();
-        expected.put("r", 3L);
-        expected.put("a", 2L);
-        expected.put("e", 1L);
-        expected.put("x", 1L);
-        expected.put("t", 1L);
-        expected.put("o", 1L);
-        expected.put("d", 1L);
-        expected.put("i", 1L);
-        expected.put("n", 1L);
-        expected.put("y", 1L);
-
+    @ParameterizedTest
+    @MethodSource("letterFrequencyMethodSource")
+    void test_shouldCalculateFrequency(String input, Map<String, Long> expected) {
+        Map<String, Long> actual = new LetterFrequencyCalculator().calculateFrequency(input);
         assertEquals(expected, actual);
     }
 
-    @Test
-    void test_shouldCalculateFrequency2() {
-        Map<String, Long> actual = new LetterFrequencyCalculator().calculateFrequency("A school of fish swam away from the swimmer");
+    private static Stream<Arguments> letterFrequencyMethodSource() {
+        Map<String, Long> extraordinary = new LinkedHashMap<>();
+        extraordinary.put("r", 3L);
+        extraordinary.put("a", 2L);
+        extraordinary.put("e", 1L);
+        extraordinary.put("x", 1L);
+        extraordinary.put("t", 1L);
+        extraordinary.put("o", 1L);
+        extraordinary.put("d", 1L);
+        extraordinary.put("i", 1L);
+        extraordinary.put("n", 1L);
+        extraordinary.put("y", 1L);
 
-        Map<String, Long> expected = new LinkedHashMap<>();
-        expected.put("a", 4L);
-        expected.put("s", 4L);
-        expected.put("o", 4L);
-        expected.put("m", 4L);
-        expected.put("h", 3L);
-        expected.put("f", 3L);
-        expected.put("w", 3L);
-        expected.put("i", 2L);
-        expected.put("r", 2L);
-        expected.put("e", 2L);
-        expected.put("c", 1L);
-        expected.put("l", 1L);
-        expected.put("y", 1L);
-        expected.put("t", 1L);
+        Map<String, Long> schoolOfFish = new LinkedHashMap<>();
+        schoolOfFish.put("a", 4L);
+        schoolOfFish.put("s", 4L);
+        schoolOfFish.put("o", 4L);
+        schoolOfFish.put("m", 4L);
+        schoolOfFish.put("h", 3L);
+        schoolOfFish.put("f", 3L);
+        schoolOfFish.put("w", 3L);
+        schoolOfFish.put("i", 2L);
+        schoolOfFish.put("r", 2L);
+        schoolOfFish.put("e", 2L);
+        schoolOfFish.put("c", 1L);
+        schoolOfFish.put("l", 1L);
+        schoolOfFish.put("y", 1L);
+        schoolOfFish.put("t", 1L);
 
-        assertEquals(expected, actual);
+        return Stream.of(
+                Arguments.of("Extraordinary", extraordinary),
+                Arguments.of("A school of fish swam away from the swimmer", schoolOfFish)
+        );
     }
 }

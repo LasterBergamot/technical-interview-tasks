@@ -23,14 +23,13 @@ import java.util.stream.Collectors;
 public class LetterFrequencyCalculator {
 
     public Map<String, Long> calculateFrequency(String input) {
-        LinkedHashMap<String, Long> collect = input.chars()
+        return input.chars()
                 .mapToObj(c -> (char) c)
                 .map(Object::toString)
                 .filter(letter -> !letter.contains(" "))
                 .map(String::toLowerCase)
-                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
-
-        return collect.entrySet()
+                .collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()))
+                .entrySet()
                 .stream()
                 .sorted(Map.Entry.comparingByValue(Comparator.comparingLong(Long::longValue).reversed()))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (x, y) -> y, LinkedHashMap::new));
