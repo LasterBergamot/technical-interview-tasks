@@ -47,4 +47,36 @@ class WordFrequencyCalculatorTest {
                 )
         );
     }
+
+    @ParameterizedTest
+    @MethodSource("oddWordFrequencyMethodSource")
+    void test_shouldCalculateOddFrequency(List<String> input, Map<String, Long> expected) {
+        Map<String, Long> actual = new WordFrequencyCalculator().calculateOddFrequency(input);
+
+        assertEquals(expected, actual);
+    }
+
+    private static Stream<Arguments> oddWordFrequencyMethodSource() {
+        Map<String, Long> first = new LinkedHashMap<>();
+        first.put("APPLE", 3L);
+        first.put("MASQUERADE", 1L);
+        first.put("HORSE", 1L);
+        first.put("MINUTE", 1L);
+        first.put("MASK", 1L);
+
+        Map<String, Long> second = new LinkedHashMap<>();
+        second.put("AAA", 1L);
+        second.put("WORD", 1L);
+
+        return Stream.of(
+                Arguments.of(
+                        Arrays.asList("Apple", "Horse", "apple", "ApplE", "Minute", "masquerade", "Mask", "water", "Water"),
+                        first
+                ),
+                Arguments.of(
+                        Arrays.asList("Word", "A", "AA", "a", "aaa", "aa"),
+                        second
+                )
+        );
+    }
 }
